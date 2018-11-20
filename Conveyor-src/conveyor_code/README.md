@@ -1,21 +1,19 @@
 ## General Info
 
-- The Industrial IoT demo is a comprehensive demo that combines several AWS technologies
-  to show the art of the possible in how AWS can play a central  role in industrial
+- The Industrial IoT demo is a comprehensive demo that combines AWS technologies
+  to show the art of the possible in how AWS can play a central role in industrial
   design & automation, fleet management, predictive maintenance, and technician training.
   The physical demo itself is a 3D printed conveyor belt controlled by an ESP32 microcontroller.
 
 - The ESP32 is connected to AWS IoT via wifi, allowing the conveyor belt to communicate
   with and be controlled by the cloud. The demo utilizes AWS IoT's shadow service as a
-  way to control the conveyor belt's functionality and view a digital clone of the conveyor
-  belt's physical state. This digital state of the conveyor belt is known as the shadow
-  state which has two components: desired state and reported state. Desired state is what
+  way to control the conveyor and report on its state. This digital state of the conveyor belt is called the device shadow which has two main components: desired state and reported state. Desired state is what
   the user wants the conveyor to do, and reported state is what the conveyor reports it
-  is doing. Desired state is set by the user on the internet, and in response, the conveyor
+  is doing. Desired state is set by the user via a Sumerian application, and in response, the conveyor
   belt will adjust it's actual state to mirror this new desired state and then publish a
   new reported state to the device shadow service. With this demo, there are two fields
   that can be manipulated by the shadow: the conveyor's mode which has the possible values
-  of forwards, stopped, or backwards and the conveyor's speed which has the possible values
+  of forward, stopped, or backward and the conveyor's speed which has the possible values
   of slow and fast. Alongside this communication with this shadow service, the conveyor
   belt also continuously reports rpm and vibration data to AWS MQTT Topics.
 
