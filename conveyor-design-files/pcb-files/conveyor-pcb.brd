@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<!-- Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved. -->
-<!-- SPDX-License-Identifier: Apache-2.0 -->
 <eagle version="8.2.2">
 <drawing>
 <settings>
@@ -293,34 +291,6 @@
 </package>
 </packages>
 </library>
-<library name="SparkFun-Capacitors">
-<description>&lt;h3&gt;SparkFun Capacitors&lt;/h3&gt;
-This library contains capacitors.
-&lt;br&gt;
-&lt;br&gt;
-We've spent an enormous amount of time creating and checking these footprints and parts, but it is &lt;b&gt; the end user's responsibility&lt;/b&gt; to ensure correctness and suitablity for a given componet or application.
-&lt;br&gt;
-&lt;br&gt;If you enjoy using this library, please buy one of our products at &lt;a href=" www.sparkfun.com"&gt;SparkFun.com&lt;/a&gt;.
-&lt;br&gt;
-&lt;br&gt;
-&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/
-&lt;br&gt;
-&lt;br&gt;
-You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
-<packages>
-<package name="CPOL-RADIAL-2.5MM-6.5MM">
-<description>2.5 mm spaced PTHs with 6.5 mm diameter outline</description>
-<wire x1="-0.635" y1="1.778" x2="-1.905" y2="1.778" width="0.2032" layer="21"/>
-<circle x="0" y="0" radius="3.25" width="0.2032" layer="21"/>
-<pad name="2" x="-1.25" y="0" drill="0.7" diameter="1.651"/>
-<pad name="1" x="1.25" y="0" drill="0.7" diameter="1.651" shape="square"/>
-<text x="0" y="-3.429" size="0.6096" layer="27" font="vector" ratio="20" align="top-center">&gt;Value</text>
-<text x="0" y="3.429" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center">&gt;Name</text>
-<wire x1="1.905" y1="1.778" x2="0.635" y2="1.778" width="0.2032" layer="21"/>
-<wire x1="1.27" y1="2.413" x2="1.27" y2="1.143" width="0.2032" layer="21"/>
-</package>
-</packages>
-</library>
 <library name="POLOLU">
 <packages>
 <package name="DRV8834">
@@ -531,6 +501,17 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </package>
 </packages>
 </library>
+<library name="Capacitor">
+<packages>
+<package name="CAP_100UF">
+<pad name="+5V" x="-1.27" y="0" drill="1.016" diameter="1.778" shape="square"/>
+<pad name="GND" x="1.27" y="0" drill="1.016" diameter="1.778"/>
+<circle x="0" y="0" radius="3.25" width="0.127" layer="21"/>
+<text x="-1.8542" y="1.2446" size="1.27" layer="21">+</text>
+<text x="0.9652" y="1.1938" size="1.27" layer="21">-</text>
+</package>
+</packages>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -722,9 +703,6 @@ design rules under a new name.</description>
 <elements>
 <element name="5V_POWER" library="ScrewTerminals" package="2.54MM_2P" value="2.54MM_2P" x="83.82" y="6.35" smashed="yes" rot="R180"/>
 <element name="ACCELEROMETER" library="Adafruit" package="ADAFRUIT_ADXL335" value="ADAFRUIT_ADXL335" x="24.13" y="25.4" smashed="yes" rot="R270"/>
-<element name="C1" library="SparkFun-Capacitors" package="CPOL-RADIAL-2.5MM-6.5MM" value="100uF" x="69.85" y="5.08" smashed="yes" rot="R90">
-<attribute name="PROD_ID" value="CAP-08439" x="69.85" y="5.08" size="1.778" layer="27" rot="R90" display="off"/>
-</element>
 <element name="RPM_SENSOR" library="ScrewTerminals" package="2.54MM_3P" value="2.54MM_3P" x="12.7" y="34.29" smashed="yes" rot="R270"/>
 <element name="SENSOR" library="ScrewTerminals" package="2.54MM_3P" value="2.54MM_3P" x="83.82" y="26.67" smashed="yes" rot="R180"/>
 <element name="STEPPER_A" library="ScrewTerminals" package="2.54MM_2P" value="2.54MM_2P" x="83.82" y="13.97" smashed="yes" rot="R180"/>
@@ -750,6 +728,7 @@ design rules under a new name.</description>
 <element name="U$17" library="Headers" package="1PIN_HEADER" value="1PIN_HEADER" x="76.2" y="24.13"/>
 <element name="U$18" library="Headers" package="1PIN_HEADER" value="1PIN_HEADER" x="76.2" y="26.67"/>
 <element name="U$19" library="Headers" package="1PIN_HEADER" value="1PIN_HEADER" x="76.2" y="29.21"/>
+<element name="U$20" library="Capacitor" package="CAP_100UF" value="CAP_100UF" x="69.85" y="5.08" rot="R270"/>
 </elements>
 <signals>
 <signal name="GND">
@@ -760,7 +739,6 @@ design rules under a new name.</description>
 <contactref element="RPM_SENSOR" pad="P$2"/>
 <contactref element="SENSOR" pad="P$2"/>
 <contactref element="5V_POWER" pad="P$1"/>
-<contactref element="C1" pad="2"/>
 <contactref element="STEPPER_CONTROL" pad="GND@1"/>
 <contactref element="STEPPER_CONTROL" pad="GND@2"/>
 <contactref element="ESP1" pad="GND@1"/>
@@ -790,6 +768,7 @@ design rules under a new name.</description>
 </polygon>
 <contactref element="U$18" pad="P$1"/>
 <contactref element="U$12" pad="P$1"/>
+<contactref element="U$20" pad="GND"/>
 </signal>
 <signal name="EN">
 <contactref element="STEPPER_CONTROL" pad="ENABLE"/>
@@ -1116,18 +1095,14 @@ design rules under a new name.</description>
 </signal>
 <signal name="+5V">
 <contactref element="5V_POWER" pad="P$2"/>
-<contactref element="C1" pad="1"/>
 <contactref element="STEPPER_CONTROL" pad="VMOT"/>
 <contactref element="U$2" pad="P$1"/>
 <contactref element="ESP1" pad="VIN5V"/>
-<wire x1="83.82" y1="8.89" x2="72.41" y2="8.89" width="1.016" layer="1"/>
 <wire x1="73.66" y1="29.0767125" x2="73.66" y2="29.21" width="1.016" layer="1"/>
 <contactref element="U$19" pad="P$1"/>
 <wire x1="73.66" y1="29.21" x2="76.2" y2="29.21" width="1.016" layer="1"/>
 <wire x1="73.66" y1="29.21" x2="71.12" y2="29.21" width="1.016" layer="1"/>
 <wire x1="71.12" y1="29.21" x2="69.85" y2="27.94" width="1.016" layer="1"/>
-<wire x1="72.41" y1="8.89" x2="69.85" y2="6.33" width="1.016" layer="1"/>
-<wire x1="66.825834375" y1="6.33" x2="69.85" y2="6.33" width="1.016" layer="1"/>
 <wire x1="66.825834375" y1="6.33" x2="58.908" y2="6.33" width="1.016" layer="1"/>
 <wire x1="58.908" y1="6.33" x2="54.1274" y2="1.5494" width="1.016" layer="1"/>
 <wire x1="54.1274" y1="1.5494" x2="27.6606" y2="1.5494" width="1.016" layer="1"/>
@@ -1137,6 +1112,11 @@ design rules under a new name.</description>
 <wire x1="27.94" y1="3.704475" x2="26.7227625" y2="2.4872375" width="1.016" layer="1"/>
 <wire x1="69.85" y1="9.354165625" x2="66.825834375" y2="6.33" width="1.016" layer="1"/>
 <wire x1="69.85" y1="27.94" x2="69.85" y2="9.354165625" width="1.016" layer="1"/>
+<contactref element="U$20" pad="+5V"/>
+<wire x1="72.39" y1="8.89" x2="69.85" y2="6.35" width="1.016" layer="1"/>
+<wire x1="83.82" y1="8.89" x2="72.39" y2="8.89" width="1.016" layer="1"/>
+<wire x1="69.85" y1="6.35" x2="66.845834375" y2="6.35" width="1.016" layer="1"/>
+<wire x1="66.845834375" y1="6.35" x2="66.825834375" y2="6.33" width="1.016" layer="1"/>
 </signal>
 <signal name="P$8">
 <contactref element="U$2" pad="P$8"/>
