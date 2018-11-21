@@ -139,6 +139,8 @@
 <layer number="255" name="routoute" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <board>
+<description>Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0</description>
 <plain>
 <wire x1="0" y1="0" x2="100" y2="0" width="0" layer="20"/>
 <wire x1="100" y1="0" x2="100" y2="53" width="0" layer="20"/>

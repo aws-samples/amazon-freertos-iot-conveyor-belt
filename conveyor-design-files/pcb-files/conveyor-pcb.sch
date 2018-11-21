@@ -139,6 +139,8 @@
 <layer number="255" name="routoute" color="7" fill="1" visible="yes" active="yes"/>
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
+<description>Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0</description>
 <libraries>
 <library name="Adafruit">
 <packages>
