@@ -1,3 +1,4 @@
 [submodule "Conveyor-src/amazon-freertos"]
 	path = conveyor-src/amazon-freertos
 	url = https://github.com/aws/amazon-freertos.git
+	branch = v1.4.1
