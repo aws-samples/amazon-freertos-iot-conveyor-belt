@@ -1,5 +1,5 @@
 # Belt Pulley Subassemblies
-The belt pulley subassembly consists of three steps:
+The belt pulley subassembly consists of two steps:
 
 * Install magnets for RPM sensing.
 * Attaching 100mm threaded rod (axle) to pulley.
