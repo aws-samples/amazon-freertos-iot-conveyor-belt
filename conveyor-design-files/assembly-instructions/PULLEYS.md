@@ -2,7 +2,6 @@
 The belt pulley subassembly consists of three steps:
 
 * Install magnets for RPM sensing.
-* Install heat set inserts.
 * Attaching 100mm threaded rod (axle) to pulley.
 
 ## Magnets
@@ -13,14 +12,6 @@ We use small 6mm magnets embedded in one of the belt pulleys to detect RPMs. In 
 Depending on how you printed this part you may need to chamfer the inner edge of the sockets so the magnets can be pressed in. Note it will be much easier to install the magnets without the M8 threaded axel installed. 
 
 ![Magnets](./images/pulley_magnets.jpg)
-
-
-
-## Heat Set Inserts
-
-We use M3 set screws to make fast each of the pulley axles. Instead of screwing the set screws directly into the plastic of the pulley we use M3 headset inserts. There are two inserts per pulley, installing them is a little tight but with the proper sideways angle of the soldering tip you should shouldn't have to much of an issue.
-
-![heat_set_pully](./images/heat_set_pully.jpg)
 
 ## Installing 100mm M8 Threaded Axle
 
