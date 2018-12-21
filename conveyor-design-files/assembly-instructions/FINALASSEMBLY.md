@@ -59,7 +59,7 @@ Once you have the pulleys seated in the front conveyor piece figure out how many
 
 Now that you have the pulleys installed in the conveyor front piece. You can slip the 300H200 belt onto the conveyor assembly. You will need to pass the back piece with power cover through the belt before you can slip it over the pulleys. 
 
-Once the belt is over the pulleys you can attach the back piece to the rest of the conveyor assembly. The conveyor belt will be putting tension on the belt pulleys so you will need to spread the pulleys appart to get them to fit into the 608 bearings on the back piece. 
+Once the belt is over the pulleys you can attach the back piece to the rest of the conveyor assembly. The conveyor belt will be putting tension on the belt pulleys so you will need to spread the pulleys appart to get them to fit into the 608 bearings on the back piece. Attach the back piece to the center using 6mm M3 screws. 
 
 ![Back Assembled](./images/back_assembled.jpg)
 
