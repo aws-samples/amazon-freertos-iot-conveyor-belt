@@ -33,11 +33,11 @@ conveyor's stepper motor, and publish telemetry data.
     this project already contains this library. In addition, make sure the IDF_PATH
     environment variable has not been set.
 
-    - [Setting up the toolchain for Windows](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/windows-setup.html)
+    - [Setting up the toolchain for Windows](https://github.com/espressif/esp-idf/blob/release/v3.0/docs/get-started/windows-setup.rst)
 
-    - [Setting up the toolchain for Mac OS](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/macos-setup.html)
+    - [Setting up the toolchain for Mac OS](https://github.com/espressif/esp-idf/blob/release/v3.0/docs/get-started/macos-setup.rst)
 
-    - [Setting up the toolchain for Linux](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/linux-setup.html)
+    - [Setting up the toolchain for Linux](https://github.com/espressif/esp-idf/blob/release/v3.0/docs/get-started/linux-setup.rst)
 
 3. Installing boto3 and Configuring AWS CLI
 
