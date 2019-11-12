@@ -42,14 +42,17 @@
  */
 #define MQQT_MAX_DATA_LENGTH                 50
 
-/* The vibration topic that the MQTT client publishes to. */
-#define VIBR_TOPIC_NAME                      ( ( const uint8_t * ) "dt/conveyor/vibration" )
-
-/* The rpm topic that the MQTT client publishes to. */
-#define RPM_TOPIC_NAME                       ( ( const uint8_t * ) "dt/conveyor/speed" )
-
 /* MQTT client ID. It must be unique per MQTT broker. */
-#define MQQT_CLIENT_ID                       ( ( const uint8_t * ) "MQTTAccel" )
+#define MQQT_CLIENT_ID                       ( ( const uint8_t * ) clientcredentialIOT_THING_NAME )
+
+/* Prefix for Topic to send telemetry data
+#define DATA_PREFIX_TOPIC_NAME               ( ( const uint8_t * ) "dt/conveyors/" ) 
+ 
+/* The vibration topic that the MQTT client publishes to. */
+#define VIBR_TOPIC_NAME                      ( ( const uint8_t * ) "/vibration" ) 
+ 
+/* The rpm topic that the MQTT client publishes to. */
+#define RPM_TOPIC_NAME                       ( ( const uint8_t * ) "/speed" )
 
 /* Task name. */
 #define TELEM_TASK_NAME                      "TelemetryTask"
@@ -171,20 +174,25 @@ static void prvReportVals( uint32_t ulX_val, uint32_t ulY_val, uint32_t ulZ_val,
 {
     char rpmBuffer[ MQQT_MAX_DATA_LENGTH ];
     char vibrBuffer[ MQQT_MAX_DATA_LENGTH ];
-
+    char vibrtopicBuffer[ MQQT_MAX_DATA_LENGTH ];
+    char rpmtopicBuffer[ MQQT_MAX_DATA_LENGTH ];
     /* Create the message that will be published, which is of the form "{"speed":{"rpm":RPM}}"
     * where RPM is the most recent calculated rotations per minute. */
     ( void ) snprintf( rpmBuffer, MQQT_MAX_DATA_LENGTH, "{\"speed\":{\"rpm\":%u}}", usRpm );
-
+    /* Create unique topic for your thing to send rpms
+    ( void ) snprintf( rpmtopicBuffer, MQQT_MAX_DATA_LENGTH, "%s%s%s",  DATA_PREFIX_TOPIC_NAME, MQQT_CLIENT_ID, RPM_TOPIC_NAME);
+ 
     /* Send message as payload over to prvPublishToTopic. */
-    prvPublishToTopic( RPM_TOPIC_NAME , rpmBuffer );
-
+    prvPublishToTopic( (const uint8_t *)rpmtopicBuffer , rpmBuffer );
+ 
     /* Create the message that will be published, which is of the form "{"chassis":{"x":ulX_val,"y":ulY_val,"z":ulZ_val}}"
     * where ulX_val, ulY_val, and ulZ_val are the corresponding accelerometer readings. */
     ( void ) snprintf( vibrBuffer, MQQT_MAX_DATA_LENGTH, "{\"chassis\":{\"x\":%u,\"y\":%u,\"z\":%u}}", ulX_val, ulY_val, ulZ_val );
-
+    /* Create unique topic for your thing to send vibrations
+    ( void ) snprintf( vibrtopicBuffer, MQQT_MAX_DATA_LENGTH, "%s%s%s",  DATA_PREFIX_TOPIC_NAME, MQQT_CLIENT_ID, VIBR_TOPIC_NAME);
+    
     /* Send message as payload over to prvPublishToTopic. */
-    prvPublishToTopic( VIBR_TOPIC_NAME , vibrBuffer );
+    prvPublishToTopic( (const uint8_t *)vibrtopicBuffer , vibrBuffer );
 }
 
 /*-----------------------------------------------------------*/
