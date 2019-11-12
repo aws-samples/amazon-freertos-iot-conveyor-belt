@@ -147,10 +147,10 @@ it is ready to be controlled from AWS IoT's shadow service.
 
 3. Click on "Subscribe to a topic".
 
-4. For "Subscription topic", enter `dt/conveyor/speed`. Then click the "Subscribe to topic"
+4. For "Subscription topic", enter `dt/conveyors/thingname/speed`. Then click the "Subscribe to topic"
    button to subscribe. You will be brought to a tab showing incoming rpm data.
 
-5. Click on "Subscribe to a topic" again and enter `dt/conveyor/vibration`. Click the button to
+5. Click on "Subscribe to a topic" again and enter `dt/conveyors/thingname/vibration`. Click the button to
    subscribe and you will be brought to a tab showing incoming vibration data.
 
 ## Repository Structure and Contents
