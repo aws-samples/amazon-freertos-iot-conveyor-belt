@@ -179,7 +179,7 @@ static void prvReportVals( uint32_t ulX_val, uint32_t ulY_val, uint32_t ulZ_val,
     /* Create the message that will be published, which is of the form "{"speed":{"rpm":RPM}}"
     * where RPM is the most recent calculated rotations per minute. */
     ( void ) snprintf( rpmBuffer, MQQT_MAX_DATA_LENGTH, "{\"speed\":{\"rpm\":%u}}", usRpm );
-    /* Create unique topic for your thing to send rpms
+    /* Create unique topic for your thing to send rpms */
     ( void ) snprintf( rpmtopicBuffer, MQQT_MAX_DATA_LENGTH, "%s%s%s",  DATA_PREFIX_TOPIC_NAME, MQQT_CLIENT_ID, RPM_TOPIC_NAME);
  
     /* Send message as payload over to prvPublishToTopic. */
@@ -188,7 +188,7 @@ static void prvReportVals( uint32_t ulX_val, uint32_t ulY_val, uint32_t ulZ_val,
     /* Create the message that will be published, which is of the form "{"chassis":{"x":ulX_val,"y":ulY_val,"z":ulZ_val}}"
     * where ulX_val, ulY_val, and ulZ_val are the corresponding accelerometer readings. */
     ( void ) snprintf( vibrBuffer, MQQT_MAX_DATA_LENGTH, "{\"chassis\":{\"x\":%u,\"y\":%u,\"z\":%u}}", ulX_val, ulY_val, ulZ_val );
-    /* Create unique topic for your thing to send vibrations
+    /* Create unique topic for your thing to send vibrations */
     ( void ) snprintf( vibrtopicBuffer, MQQT_MAX_DATA_LENGTH, "%s%s%s",  DATA_PREFIX_TOPIC_NAME, MQQT_CLIENT_ID, VIBR_TOPIC_NAME);
     
     /* Send message as payload over to prvPublishToTopic. */
