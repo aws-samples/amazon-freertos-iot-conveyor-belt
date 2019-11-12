@@ -18,7 +18,7 @@ all() {
   echo { > config/configure.json
 
   # prompt user and read in thing name
-  echo 'Enter the name of your IoT thing:'
+  echo 'Enter the name of your IoT thing. Before proceeding, make sure the IoT Thing does not already exist in your account:'
   read thing_name
   echo \"thing_name\":\"$thing_name\", >> config/configure.json
 
@@ -33,11 +33,7 @@ all() {
   echo \"wifi_password\":\"$wifi_password\", >> config/configure.json
 
   # prompt user and read in wifi security type
-  echo 'Enter the security type your Wi-Fi network. Valid security types are:
-    eWiFiSecurityOpen: Open, no security
-    eWiFiSecurityWEP: WEP security
-    eWiFiSecurityWPA: WPA security
-    eWiFiSecurityWPA2: WPA2 security'
+  echo 'Enter the security type for your Wi-Fi network. Possible values are - eWiFiSecurityOpen, eWiFiSecurityWEP, eWiFiSecurityWPA, eWiFiSecurityWPA2:'
   read wifi_security
   echo \"wifi_security\":\"$wifi_security\" >> config/configure.json
 
