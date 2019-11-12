@@ -42,4 +42,5 @@
 | M3X8mm Hex Screw                     | 50       | https://www.amazon.com/gp/product/B01M5DWCOW/ref=oh_aui_detailpage_o00_s01?ie=UTF8&psc=1                                                          |
 | M3X20mm Hex Screw                    | 4        | https://www.amazon.com/gp/product/B015A30R1I/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1                                                          |
 | M3 Washers                           | 4        | https://www.amazon.com/M3x6mmx0-5mm-Stainless-Steel-Washer-100Pcs/dp/B015A39NCC/ref=sr_1_3?ie=UTF8&qid=1533594249&sr=8-3&keywords=m3+washers      |
-| M8 Nylock Hex Nut                    | 4        | https://www.amazon.com/uxcell-1-25mm-Stainless-Nylock-Insert/dp/B01M28GRLR/ref=sr_1_4?ie=UTF8&qid=1532637630&sr=8-4&keywords=m8+nylock            |
+| M8 Nylock Hex Nut                    | 7        | https://www.amazon.com/uxcell-1-25mm-Stainless-Nylock-Insert/dp/B01M28GRLR/ref=sr_1_4?ie=UTF8&qid=1532637630&sr=8-4&keywords=m8+nylock            |
+| M2X4mm Self Tapping Screw           | 2        | https://www.amazon.com/gp/product/B0775ZKB2H/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&psc=1    |
