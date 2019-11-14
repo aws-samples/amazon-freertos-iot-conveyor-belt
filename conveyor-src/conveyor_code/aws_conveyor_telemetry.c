@@ -11,6 +11,7 @@
 
 /* Standard includes. */
 #include <stdio.h>
+#include <stdlib.h> 
 #include <string.h>
 
 /* FreeRTOS includes. */
@@ -45,12 +46,11 @@
 /* MQTT client ID. It must be unique per MQTT broker. */
 #define MQQT_CLIENT_ID                       ( ( const uint8_t * ) clientcredentialIOT_THING_NAME )
 
-/* Prefix for Topic to send telemetry data
 #define DATA_PREFIX_TOPIC_NAME               ( ( const uint8_t * ) "dt/conveyors/" ) 
- 
+
 /* The vibration topic that the MQTT client publishes to. */
 #define VIBR_TOPIC_NAME                      ( ( const uint8_t * ) "/vibration" ) 
- 
+
 /* The rpm topic that the MQTT client publishes to. */
 #define RPM_TOPIC_NAME                       ( ( const uint8_t * ) "/speed" )
 
@@ -139,7 +139,7 @@ static void prvPublishToTopic( const uint8_t * pucTopic, const char * const pcPa
     /* Check this function is not being called before the MQTT client object has
     * been created. */
     configASSERT( xMQTTHandle != NULL );
-
+        
     /* Setup the publish parameters. */
     memset( &( xPublishParameters ), 0x00, sizeof( xPublishParameters ) );
     xPublishParameters.pucTopic = pucTopic;
@@ -181,10 +181,10 @@ static void prvReportVals( uint32_t ulX_val, uint32_t ulY_val, uint32_t ulZ_val,
     ( void ) snprintf( rpmBuffer, MQQT_MAX_DATA_LENGTH, "{\"speed\":{\"rpm\":%u}}", usRpm );
     /* Create unique topic for your thing to send rpms */
     ( void ) snprintf( rpmtopicBuffer, MQQT_MAX_DATA_LENGTH, "%s%s%s",  DATA_PREFIX_TOPIC_NAME, MQQT_CLIENT_ID, RPM_TOPIC_NAME);
- 
+
     /* Send message as payload over to prvPublishToTopic. */
     prvPublishToTopic( (const uint8_t *)rpmtopicBuffer , rpmBuffer );
- 
+
     /* Create the message that will be published, which is of the form "{"chassis":{"x":ulX_val,"y":ulY_val,"z":ulZ_val}}"
     * where ulX_val, ulY_val, and ulZ_val are the corresponding accelerometer readings. */
     ( void ) snprintf( vibrBuffer, MQQT_MAX_DATA_LENGTH, "{\"chassis\":{\"x\":%u,\"y\":%u,\"z\":%u}}", ulX_val, ulY_val, ulZ_val );
@@ -319,6 +319,9 @@ MQTTAgentReturnCode_t xMQTTClientConnect( void )
     /* First disconnect from the MQTT client. If already connected, this is a no-op. */
     prvMQTTClientDisconnect();
 
+    char clientID[ MQQT_MAX_DATA_LENGTH ];
+    ( void ) snprintf( clientID, MQQT_MAX_DATA_LENGTH, "%s%d", MQQT_CLIENT_ID, rand());
+
     MQTTAgentReturnCode_t xReturn;
     MQTTAgentConnectParams_t xConnectParams =
     {
@@ -326,8 +329,8 @@ MQTTAgentReturnCode_t xMQTTClientConnect( void )
         democonfigMQTT_AGENT_CONNECT_FLAGS,                      /* Connection flags. */
         pdFALSE,                                                 /* Deprecated. */
         clientcredentialMQTT_BROKER_PORT,                        /* Port number on which the MQTT broker is listening. */
-        MQQT_CLIENT_ID,                                          /* Client Identifier of the MQTT client. It should be unique per broker. */
-        ( uint16_t ) strlen( ( const char * ) MQQT_CLIENT_ID ),  /* The length of the client Id, filled in later as not const. */
+        (const uint8_t *) clientID ,                                          /* Client Identifier of the MQTT client. It should be unique per broker. */
+        ( uint16_t ) strlen( ( const char * ) clientID ),  /* The length of the client Id, filled in later as not const. */
         pdFALSE,                                                 /* Deprecated. */
         NULL,                                                    /* User data supplied to the callback. Can be NULL. */
         NULL,                                                    /* Callback used to report various events. Can be NULL. */
