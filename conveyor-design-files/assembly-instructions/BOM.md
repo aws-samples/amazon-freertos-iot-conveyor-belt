@@ -5,7 +5,7 @@
 | Front            | 1        | https://github.com/aws-samples/amazon-freertos-iot-conveyor-belt/blob/master/conveyor-design-files/3d-stl-files/conveyor-front-one-piece.stl        |
 | Back             | 1        | https://github.com/aws-samples/amazon-freertos-iot-conveyor-belt/blob/master/conveyor-design-files/3d-stl-files/conveyor-back-one-piece.stl         |
 | Center           | 1        | https://github.com/aws-samples/amazon-freertos-iot-conveyor-belt/blob/master/conveyor-design-files/3d-stl-files/conveyor-center.stl                 |
-| Belt Pulley       | 2        | https://github.com/aws-samples/amazon-freertos-iot-conveyor-belt/blob/master/conveyor-design-files/3d-stl-files/conveyor-belt-pully.stl             |
+| Belt Pulley       | 2        | https://github.com/aws-samples/amazon-freertos-iot-conveyor-belt/blob/master/conveyor-design-files/3d-stl-files/conveyor-belt-pully-v2.stl             |
 | Drive Belt Cover | 1        | https://github.com/aws-samples/amazon-freertos-iot-conveyor-belt/blob/master/conveyor-design-files/3d-stl-files/conveyor-drive-belt-cover.stl       |
 | Switch Cover     | 1        | https://github.com/aws-samples/amazon-freertos-iot-conveyor-belt/blob/master/conveyor-design-files/3d-stl-files/conveyor-switch-cover.stl           |
 | Conveyor Leg     | 2        | https://github.com/aws-samples/amazon-freertos-iot-conveyor-belt/blob/master/conveyor-design-files/3d-stl-files/conveyor-leg.stl                    |
@@ -20,8 +20,8 @@
 | NEMA17 Stepper Motor       | 1        | https://www.amazon.com/gp/product/B01GNAN2U0/ref=oh_aui_detailpage_o08_s03?ie=UTF8&psc=1                                                                             |
 | 100uF Capacitor            | 1        | https://www.amazon.com/Bluesky-50PCS-Radial-Electrolytic-Capacitor/dp/B01K9IGBBY/ref=sr_1_8?ie=UTF8&qid=1532559654&sr=8-8&keywords=100uf+capacitor                   |
 | ADXL335                    | 1        | https://www.amazon.com/gp/product/B00NAY2TUC/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1                                                                             |
-| A1120 Hall Effect Sensor   | 1        | https://www.amazon.com/dp/B01ILBADN8?tag=amz-mkt-fox-us-20&ascsubtag=1ba00-01000-a0049-mac00-dsk00-nomod-us000-pcomp-feature-rscomp-wm-5&ref=aa_rscomp_aapi1         |
-| USB Micro-B Breakout       | 1        | https://www.adafruit.com/product/1833                                                                                                                                |
+| A1120 Hall Effect Sensor   | 1        | https://www.amazon.com/gp/product/B00SWK15ZE/ref=ppx_yo_dt_b_asin_title_o04_s03?ie=UTF8&psc=1         |
+| USB Micro-B Breakout       | 1        | https://www.amazon.com/gp/product/B00KLDPZVU/ref=ppx_yo_dt_b_asin_title_o05_s05?ie=UTF8&psc=1                                                                                                                                |
 | Toggle Switch              | 1        | https://www.amazon.com/gp/product/B0725V1Z54/ref=oh_aui_detailpage_o09_s00?ie=UTF8&psc=1                                                                             |
 | Ribbon Cable               | 1        | https://www.amazon.com/Ribbon-Cable-10-wire-15ft/dp/B007R9SQQM/ref=sr_1_3?ie=UTF8&qid=1532641748&sr=8-3&keywords=ribbon+cable                                        |
 | 2.54mm 3P Screw Terminal   | 2        | https://www.amazon.com/gp/product/B07DG4798T/ref=oh_aui_detailpage_o05_s00?ie=UTF8&psc=1                                                                             |
@@ -35,11 +35,12 @@
 | 60 Tooth GT2 Timing Pully (8mm Bore) | 1        | https://www.amazon.com/gp/product/B01G1N1CI8/ref=oh_aui_detailpage_o00_s01?ie=UTF8&psc=1                                                          |
 | 16 Tooth GT2 Timing Pully (5mm Bore) | 1        | https://www.amazon.com/gp/product/B019GI5DVC/ref=od_aui_detailpages01?ie=UTF8&psc=1                                                               |
 | 608 Bearings                         | 4        | https://www.amazon.com/8x22x7-Shielded-Greased-Miniature-Bearings/dp/B00NX23HGQ/ref=sr_1_3?ie=UTF8&qid=1532559372&sr=8-3&keywords=608+bearings    |
-| 100mm 8mm Threaded Rod               | 2        | https://www.mcmaster.com/#93805a375/=1dvetg9                                                                                                      |
+| 100mm 8mm Threaded Rod               | 2        | https://www.amazon.com/gp/product/B01B2WK13U/ref=ppx_yo_dt_b_asin_title_o02_s00?ie=UTF8&psc=1                                                                                                      |
 | 6mm magnets                          | 9        | https://www.amazon.com/gp/product/B075RZ82HP/ref=oh_aui_detailpage_o00_s00?ie=UTF8&psc=1                                                          |
 | M3 Heat Set Inserts                  | 50       | https://www.amazon.com/gp/product/B077CL322T/ref=oh_aui_detailpage_o00_s01?ie=UTF8&psc=1                                                          |
 | M3X6mm Set Screw                     | 4        | https://www.amazon.com/uxcell-M3x6mm-Stainless-Socket-Screws/dp/B01AXVS7RS/ref=sr_1_27?ie=UTF8&qid=1532637955&sr=8-27&keywords=m3+set+screw       |
 | M3X8mm Hex Screw                     | 50       | https://www.amazon.com/gp/product/B01M5DWCOW/ref=oh_aui_detailpage_o00_s01?ie=UTF8&psc=1                                                          |
 | M3X20mm Hex Screw                    | 4        | https://www.amazon.com/gp/product/B015A30R1I/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1                                                          |
 | M3 Washers                           | 4        | https://www.amazon.com/M3x6mmx0-5mm-Stainless-Steel-Washer-100Pcs/dp/B015A39NCC/ref=sr_1_3?ie=UTF8&qid=1533594249&sr=8-3&keywords=m3+washers      |
-| M8 Nylock Hex Nut                    | 4        | https://www.amazon.com/uxcell-1-25mm-Stainless-Nylock-Insert/dp/B01M28GRLR/ref=sr_1_4?ie=UTF8&qid=1532637630&sr=8-4&keywords=m8+nylock            |
+| M8 Nylock Hex Nut                    | 7        | https://www.amazon.com/uxcell-1-25mm-Stainless-Nylock-Insert/dp/B01M28GRLR/ref=sr_1_4?ie=UTF8&qid=1532637630&sr=8-4&keywords=m8+nylock            |
+| M2X4mm Self Tapping Screw           | 2        | https://www.amazon.com/gp/product/B0775ZKB2H/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&psc=1    |
