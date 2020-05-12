@@ -147,7 +147,7 @@ typedef struct
 } QueueData_t;
 
 /* The queues' handles, data structures, and memory. */
-static QueueHandle_t xUpdateQueue = NULL;
+static QueueHandle_t xUpdateQueue  = NULL;
 static QueueHandle_t xStepperQueue = NULL;
 static QueueHandle_t xManagerQueue = NULL;
 static StaticQueue_t xUpdateStaticQueue;
@@ -162,7 +162,7 @@ static ShadowClientHandle_t xClientHandle;
 static TaskHandle_t xManagerTaskHandle = NULL;
 
 /* Initialize actual state variables. Represent the actual speed and mode of stepper motor. */
-static uint8_t usActualMode = 0;
+static uint8_t usActualMode  = 0;
 static uint8_t usActualSpeed = 0;
 
 /* Initialize timer count for interrupt. */
@@ -173,6 +173,9 @@ static unsigned long uTimeOfReconnect = 0;
 
 /* Initialize error state flag */
 BaseType_t xConveyorErrorFlag = pdFALSE;
+
+/* Initialize Reset Counter */
+BaseType_t xConveyorResetCnt  = 0;
 
 /**
  * @brief Generates reported state json document and returns document's length.
@@ -335,9 +338,10 @@ static uint32_t prvGenerateReportedJSON( QueueData_t * const pxQueueData, uint8_
     char cReportedState[ REPORTED_BUFFER_LENGTH ];
     ( void ) snprintf( cReportedState,
                        REPORTED_BUFFER_LENGTH,
-                       "{\"speed\":%u,\"mode\":%u,\"error\":%u}",
+                       "{\"speed\":%u,\"mode\":%u,\"reset\":%u,\"error\":%u}",
                        usActualSpeed,
                        usActualMode,
+                       xConveyorResetCnt,
                        usErrorState );
 
     /* Create full reported state document, attach it to the queue data struct, and return length of doc */
@@ -374,10 +378,10 @@ static BaseType_t prvIsStringEqual( const char * const pcJson,
 static BaseType_t prvValidDesiredState( uint8_t usSpeed,
                                         uint8_t usMode,
                                         BaseType_t xFoundSpeed,
-                                        BaseType_t xFoundMode )
+                                        BaseType_t xFoundMode)
 {
-    /* If neither speed nor mode is present in desired state, then invalid. */
-    if( xFoundSpeed == pdFALSE && xFoundMode == pdFALSE )
+    /* If neither speed, mode is present in desired state, then invalid. */
+    if( xFoundSpeed == pdFALSE && xFoundMode == pdFALSE)
     {
         return pdFALSE;
     }
@@ -391,7 +395,6 @@ static BaseType_t prvValidDesiredState( uint8_t usSpeed,
     {
         return pdFALSE;
     }
-
     return pdTRUE;
 }
 
@@ -429,81 +432,102 @@ static void prvRespondToDesiredState( const char * const pcShadowDocument, uint3
     jsmntok_t pxJSMNTokens[ MAX_TOKENS ];
 
     /* Declare and initialize variables used in parsing process */
-    BaseType_t xFoundMode = pdFALSE;
+    BaseType_t xFoundMode  = pdFALSE;
     BaseType_t xFoundSpeed = pdFALSE;
+    BaseType_t xFoundReset = pdFALSE;
 
-    /* Don't do any processing if conveyor is in error mode. */
-    if( xConveyorErrorFlag == pdFALSE )
+    /* Initialize json parser */
+    jsmn_init( &xJSMNParser );
+
+    /* Clear up space in memory for queue data struct */
+    memset( &xQueueData, 0x00, sizeof( QueueData_t ) );
+
+    /* Parse the json document into an array of tokens */
+    lNbTokens = ( int32_t ) jsmn_parse( &xJSMNParser,
+                                        pcShadowDocument,
+                                        ( size_t ) ulDocumentLength,
+                                        pxJSMNTokens,
+                                        ( unsigned int ) MAX_TOKENS );
+
+    /* If parsing worked correctly and we received tokens */
+    if( lNbTokens > 0 )
     {
-        /* Initialize json parser */
-        jsmn_init( &xJSMNParser );
-
-        /* Clear up space in memory for queue data struct */
-        memset( &xQueueData, 0x00, sizeof( QueueData_t ) );
-
-        /* Parse the json document into an array of tokens */
-        lNbTokens = ( int32_t ) jsmn_parse( &xJSMNParser,
-                                            pcShadowDocument,
-                                            ( size_t ) ulDocumentLength,
-                                            pxJSMNTokens,
-                                            ( unsigned int ) MAX_TOKENS );
-
-        /* If parsing worked correctly and we received tokens */
-        if( lNbTokens > 0 )
+        /* Loop through the tokens array that jsmn_parse filled */
+        for( usTokenIndex = 0; usTokenIndex < ( uint16_t ) lNbTokens; usTokenIndex++ )
         {
-            /* Loop through the tokens array that jsmn_parse filled */
-            for( usTokenIndex = 0; usTokenIndex < ( uint16_t ) lNbTokens; usTokenIndex++ )
+            /* If this token is "speed", grab the next token and save it as the desired speed. */
+            if( prvIsStringEqual( pcShadowDocument, &pxJSMNTokens[ usTokenIndex ], "speed" ) == pdTRUE && xFoundSpeed == pdFALSE )
             {
-                /* If this token is "speed", grab the next token and save it as the desired speed. */
-                if( prvIsStringEqual( pcShadowDocument, &pxJSMNTokens[ usTokenIndex ], "speed" ) == pdTRUE && xFoundSpeed == pdFALSE )
+                /* Grab this token */
+                jsmntok_t speedTok = pxJSMNTokens[ usTokenIndex + 1 ];
+                xQueueData.usSpeed = atoi( &pcShadowDocument[ speedTok.start ]);
+                xFoundSpeed = pdTRUE;
+            }
+            /* If this token is "mode", grab the next token and save it as the desired mode. */
+            else if( prvIsStringEqual( pcShadowDocument, &pxJSMNTokens[ usTokenIndex ], "mode" ) == pdTRUE && xFoundMode == pdFALSE )
+            {
+                /* Grab this token */
+                jsmntok_t modeTok = pxJSMNTokens[ usTokenIndex + 1 ];
+                xQueueData.usMode = atoi( &pcShadowDocument[ modeTok.start ] );
+                xFoundMode = pdTRUE;
+            }
+            /* If this token is "reset", grab the next token and save it as the requested reset count. */
+            else if( prvIsStringEqual( pcShadowDocument, &pxJSMNTokens[ usTokenIndex ], "reset" ) == pdTRUE && xFoundReset == pdFALSE )
+            {
+                /* Grab this token */
+                jsmntok_t resetTok = pxJSMNTokens[ usTokenIndex + 1 ];
+                BaseType_t tmpResetCnt = atoi( &pcShadowDocument[ resetTok.start ]);
+
+                if(xConveyorResetCnt < tmpResetCnt)
                 {
-                    /* Grab this token */
-                    jsmntok_t speedTok = pxJSMNTokens[ usTokenIndex + 1 ];
-                    xQueueData.usSpeed = atoi( &pcShadowDocument[ speedTok.start ]);
-                    xFoundSpeed = pdTRUE;
-                }
-                /* If this token is "mode", grab the next token and save it as the desired mode. */
-                else if( prvIsStringEqual( pcShadowDocument, &pxJSMNTokens[ usTokenIndex ], "mode" ) == pdTRUE && xFoundMode == pdFALSE )
-                {
-                    /* Grab this token */
-                    jsmntok_t modeTok = pxJSMNTokens[ usTokenIndex + 1 ];
-                    xQueueData.usMode = atoi( &pcShadowDocument[ modeTok.start ] );
-                    xFoundMode = pdTRUE;
-                }
-                /* If we've found both mode and speed, no need to keep looping
-                 * (saves some time when both change in desired state) */
-                if( xFoundSpeed == pdTRUE && xFoundMode == pdTRUE )
-                {
-                    break;
+                   xFoundReset       = pdTRUE;
+                   xConveyorResetCnt = tmpResetCnt;
                 }
             }
-
-            /* If desired speed and/or mode are valid, continue on with change of actual and reported state */
-            if( prvValidDesiredState( xQueueData.usSpeed, xQueueData.usMode, xFoundSpeed, xFoundMode ) == pdTRUE )
+            /* If we've found both mode and speed, no need to keep looping
+             * (saves some time when both change in desired state) */
+            if( xFoundSpeed == pdTRUE && xFoundMode == pdTRUE  && xFoundReset == pdTRUE )
             {
-                /* Send struct to manager task so it can control order of flow between actual and reported state */
-                if( xQueueSendToBack( xManagerQueue, &xQueueData, SEND_QUEUE_WAIT_TICKS ) == pdTRUE )
-                {
-                    configPRINTF( ( "Successfully sent request to manager queue.\r\n" ) );
-                }
-                else
-                {
-                    configPRINTF( ( "Manager queue full, deferring request.\r\n" ) );
-                }
+                break;
+            }
+        }
+
+        /* Don't do any processing if conveyor is in error mode. */
+        if( xConveyorErrorFlag == pdTRUE && xFoundReset == pdFALSE)
+        {
+            configPRINTF( ( "Conveyor is in error mode, no reset request present. Cannot process desired state.\r\n" ) );
+            return;
+        }
+        else if(xFoundReset == pdTRUE)
+        {
+            configPRINTF( ( "Reset request found. Resetting error state.\r\n" ) );
+            xConveyorErrorFlag = pdFALSE;
+            xFoundSpeed        = pdTRUE;   // Will make prvValidDesiredState succeed
+            xFoundMode         = pdTRUE;
+            xQueueData.usSpeed = SLOW;
+            xQueueData.usMode  = STOPPED;
+        }
+        /* If desired speed and/or mode are valid, continue on with change of actual and reported state */
+        if( prvValidDesiredState( xQueueData.usSpeed, xQueueData.usMode, xFoundSpeed, xFoundMode ) == pdTRUE )
+        {
+            /* Send struct to manager task so it can control order of flow between actual and reported state */
+            if( xQueueSendToBack( xManagerQueue, &xQueueData, SEND_QUEUE_WAIT_TICKS ) == pdTRUE )
+            {
+                configPRINTF( ( "Successfully sent request to manager queue.\r\n" ) );
             }
             else
             {
-                configPRINTF( ( "Invalid desired state.\r\n" ) );
+                configPRINTF( ( "Manager queue full, deferring request.\r\n" ) );
             }
         }
         else
         {
-            configPRINTF( ( "Shadow document is too large to parse. Please trim it down or increase MAX_TOKENS.\r\n" ) );
+            configPRINTF( ( "Invalid desired state.\r\n" ) );
         }
     }
     else
     {
-        configPRINTF( ( "Conveyor is in error mode. Cannot process desired state.\r\n" ) );
+        configPRINTF( ( "Shadow document is too large to parse. Please trim it down or increase MAX_TOKENS.\r\n" ) );
     }
 }
 
@@ -525,7 +549,6 @@ static BaseType_t prvDeltaCallback( void * pvUserData,
 
     return pdFALSE;
 }
-
 /*-----------------------------------------------------------*/
 
 static void prvUpdateQueueTask( void * pvParameters )
@@ -750,7 +773,7 @@ static void prvManagerTask( void * pvParameters )
                 configPRINTF( ( "Stepper motor actual state has been updated.\r\n" ) );
 
                 /* Generate a new JSON document with new reported state and add it to queue data struct. */
-                xQueueData.ulDataLength = prvGenerateReportedJSON( &xQueueData, 0 );
+                xQueueData.ulDataLength = prvGenerateReportedJSON( &xQueueData, xConveyorErrorFlag );
 
                 /* Add new reported state to update queue. */
                 if( xQueueSendToBack( xUpdateQueue, &xQueueData, SEND_QUEUE_WAIT_TICKS ) == pdTRUE )

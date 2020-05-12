@@ -61,7 +61,7 @@ all() {
   python SetupAWS.py prereq
 
   # add initial thing shadow with aws cli tool
-  aws iot-data update-thing-shadow --thing-name=$thing_name --payload='{"state":{"desired":{"speed":1,"mode":2}}}' /dev/null
+  aws --profile AdmThomas iot-data update-thing-shadow --thing-name=$thing_name --payload='{"state":{"desired":{"speed":1,"mode":2}}}' /dev/null
 
   ### ------ update aws_clientcredential.h and aws_clientcredential_keys.h ------ ###
 
